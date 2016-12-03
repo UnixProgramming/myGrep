@@ -45,6 +45,30 @@ void cw_parsing(char* line, const char* patt, int* matchcnt){
 //hyun chang
 //if return is true, print filename
 void no_parsing(char* line,const char* patt,char* filename,_Bool showFilename){
+	regex_t state;
+	int status;
+
+	if(optionSet){	
+		if(regcomp(&state,patt,REG_ICASE)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+	else{
+		if(regcomp(&state, patt, 0)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+
+	status = regexec(&state, line,0,NULL,0);
+	if(!status)
+		if(showFilename)
+			printf("<%s>: %s\n",filename,line);
+		else
+			printf("%s\n",line);
+
+	regfree(&state);
 }
 
 
