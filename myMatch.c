@@ -134,12 +134,10 @@ _Bool lv_parsing(char* line, const char* patt){
     }
     status = regexec(&state, line,0,NULL,0);
 
-    if(c!=EOF)
-        if(status)
-            return true;
-        else
-            return false;
-
+    if(status)
+        return true;
+    else
+        return false;
 }
 //hyunchang
 _Bool lw_parsing(char* line, const char* patt){
