@@ -45,10 +45,38 @@ void v_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 
 //mingu
 void c_parsing(int* matchcnt, char* line, const char* patt){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+
+    status = regexec(&state, line,0,NULL,0);
+    if(!status)
+        (*matchcnt)++;
+
 }
 
 //mingu
 _Bool l_parsing(char* line, const char* patt, char* filename, _Bool showFilename){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+    status = regexec(&state, line,0,NULL,0);
+
+    if(!status)
+        return true;
+    else
+        return false;
+
 }
 //hyunchang
 void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename){
@@ -96,6 +124,22 @@ void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 
 //mingu
 _Bool lv_parsing(char* line, const char* patt){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+    status = regexec(&state, line,0,NULL,0);
+
+    if(c!=EOF)
+        if(status)
+            return true;
+        else
+            return false;
+
 }
 //hyunchang
 _Bool lw_parsing(char* line, const char* patt){
@@ -137,6 +181,24 @@ _Bool lw_parsing(char* line, const char* patt){
 }
 //mingu
 void nv_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool showFilename){
+
+
+	 regex_t state;
+	 int status;
+	 int linecount=linecnt;
+
+     if(regcomp(&state, patt, 0)){
+         perror("pattern parsing error");
+         exit(1);
+     }
+
+     status = regexec(&state, line,0,NULL,0);
+     if(status)
+         if(showFilename)
+             printf("<%s>%d : %s\n",filename,linecount,line);
+         else
+             printf("%d : %s\n", linecount,line);
+
 }
 //hyunchang
 //line number, indipendent word
@@ -185,6 +247,20 @@ void nw_parsing(char* line, const char* patt, int* linenum,char* filename, _Bool
 }
 //mingu
 void vc_parsing(int* matchcnt, char* line, const char* patt){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+
+    status = regexec(&state, line,0,NULL,0);
+
+    if(status)
+        (*matchcnt)++;
+
 }
 //hyun chang
 void cw_parsing(char* line, const char* patt, int* matchcnt){
