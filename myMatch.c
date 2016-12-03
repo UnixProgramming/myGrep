@@ -106,6 +106,24 @@ _Bool lw_parsing(char* line, const char* patt){
 }
 //mingu
 void nv_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool showFilename){
+
+
+	 regex_t state;
+	 int status;
+	 int linecount=linecnt;
+
+     if(regcomp(&state, patt, 0)){
+         perror("pattern parsing error");
+         exit(1);
+     }
+
+     status = regexec(&state, line,0,NULL,0);
+     if(status)
+         if(showFilename)
+             printf("<%s>%d : %s\n",filename,linecount,line);
+         else
+             printf("%d : %s\n", linecount,line);
+
 }
 //hyunchang
 //line number, indipendent word
