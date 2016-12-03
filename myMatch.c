@@ -84,6 +84,22 @@ void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 
 //mingu
 _Bool lv_parsing(char* line, const char* patt){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+    status = regexec(&state, line,0,NULL,0);
+
+    if(c!=EOF)
+        if(status)
+            return true;
+        else
+            return false;
+
 }
 //hyunchang
 _Bool lw_parsing(char* line, const char* patt){
