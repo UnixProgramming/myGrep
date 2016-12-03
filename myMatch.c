@@ -23,60 +23,82 @@ void setRegexComp(regex_t* state, const char* patt){
 void n_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool showFilename){
 	regex_t state;
     int status;
+	// save line number of string
     int linecount=linecnt;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern 
     status = regexec(&state, line,0,NULL,0);
+
+	//print result
     if(!status)
         if(showFilename)
             printf("<%s>%d : %s\n",filename,linecount,line);
         else
             printf("%d : %s\n",linecount,line);
+
+	//free
+	regfree(&state);
 }
 
 //mingu
 void v_parsing(char* line, const char* patt, char* filename, _Bool showFilename){
-
 	regex_t state;
     int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
     status = regexec(&state, line,0,NULL,0);
 
+	//print result
     if(status)
        if(showFilename)
            printf("<%s>:%s\n",filename,line);
        else
 	       printf("%s\n", line);
 
+	//free
+	regfree(&state);
 }
 
 //mingu
 void c_parsing(int* matchcnt, char* line, const char* patt){
-
 	regex_t state;
     int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
     status = regexec(&state, line,0,NULL,0);
+
+	//if exist match line, count+=1
     if(!status)
         (*matchcnt)++;
 
+	//free
+	regfree(&state);
 }
 
 //mingu
 _Bool l_parsing(char* line, const char* patt, char* filename, _Bool showFilename){
-
 	regex_t state;
     int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
     status = regexec(&state, line,0,NULL,0);
 
+	//free
+	regfree(&state);
+
+	//return result
     if(!status)
         return true;
     else
@@ -93,8 +115,10 @@ void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 	regmatch_t data;
 	_Bool isMatched = false;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
 			isMatched = true;
@@ -107,25 +131,32 @@ void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 		offset += data.rm_eo;
 	}
 
+	//print result
 	if(isMatched)
 		if(showFilename)
 			printf("<%s>: %s\n",filename,line);
 		else
 			printf("%s\n",line);
 
+	//free
 	regfree(&state);
 }
 
 //mingu
 _Bool lv_parsing(char* line, const char* patt){
-
 	regex_t state;
     int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 	
+	//find pattern
     status = regexec(&state, line,0,NULL,0);
 
+	//free
+	regfree(&state);
+
+	//retern result
     if(status)
         return true;
     else
@@ -141,8 +172,10 @@ _Bool lw_parsing(char* line, const char* patt){
 	regmatch_t data;
 	_Bool isMatched = false;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
 			isMatched = true;
@@ -155,26 +188,32 @@ _Bool lw_parsing(char* line, const char* patt){
 		offset += data.rm_eo;
 	}
 
+	//free
 	regfree(&state);
 	return isMatched;
 }
 //mingu
 void nv_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool showFilename){
-
-
 	 regex_t state;
 	 int status;
+	 // save line number of string
 	 int linecount=linecnt;
 
+	 //set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
      status = regexec(&state, line,0,NULL,0);
+
+	 //print result
      if(status)
          if(showFilename)
              printf("<%s>%d : %s\n",filename,linecount,line);
          else
              printf("%d : %s\n", linecount,line);
 
+	 //free
+	regfree(&state);
 }
 //hyunchang
 //line number, indipendent word
@@ -187,8 +226,10 @@ void nw_parsing(char* line, const char* patt, int* linenum,char* filename, _Bool
 	regmatch_t data;
 	_Bool isMatched = false;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
 			isMatched = true;
@@ -201,6 +242,7 @@ void nw_parsing(char* line, const char* patt, int* linenum,char* filename, _Bool
 		offset += data.rm_eo;
 	}
 
+	//print result
 	if(isMatched)
 		if(showFilename)
 			printf("<%s>:%d - %s\n",filename,*linenum,line);
@@ -208,21 +250,27 @@ void nw_parsing(char* line, const char* patt, int* linenum,char* filename, _Bool
 			printf("%d - %s\n",*linenum,line);
 
 	(*linenum)++;
+
+	//free
 	regfree(&state);
 }
 //mingu
 void vc_parsing(int* matchcnt, char* line, const char* patt){
-
 	regex_t state;
     int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
     status = regexec(&state, line,0,NULL,0);
 
+	//if true, count+=1
     if(status)
         (*matchcnt)++;
 
+	//free
+	regfree(&state);
 }
 //hyun chang
 void cw_parsing(char* line, const char* patt, int* matchcnt){
@@ -234,8 +282,10 @@ void cw_parsing(char* line, const char* patt, int* matchcnt){
 	regmatch_t data;
 	_Bool isMatched = false;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
 			isMatched = true;
@@ -248,9 +298,11 @@ void cw_parsing(char* line, const char* patt, int* matchcnt){
 		offset += data.rm_eo;
 	}
 
+	//if pattern matched, count+=1
 	if(isMatched)
 		(*matchcnt)++;
 
+	//free
 	regfree(&state);
 }
 
@@ -260,8 +312,10 @@ void no_parsing(char* line,const char* patt,char* filename,_Bool showFilename){
 	regex_t state;
 	int status;
 
+	//set regex compile
 	setRegexComp(&state, patt);
 
+	//find pattern
 	status = regexec(&state, line,0,NULL,0);
 	if(!status)
 		if(showFilename)
@@ -269,6 +323,7 @@ void no_parsing(char* line,const char* patt,char* filename,_Bool showFilename){
 		else
 			printf("%s\n",line);
 
+	//free
 	regfree(&state);
 }
 
