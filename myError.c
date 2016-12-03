@@ -9,7 +9,7 @@ void printUsage(){
 			printf("  -v: if pattern is not collect, print line\n");
 			printf("  -c: print lines number\n");
 			printf("  -w: if be collected pattern is 'WORD', print line\n\n");
-			printf("usable DUP Option:\n");
+			printf("usable Duplication Option:\n");
 			printf("  -i: usable at all option\n");
 			printf("  -lv, -lw, -nv, -nw, -vc, -cw\n");
 }
