@@ -156,6 +156,43 @@ void vc_parsing(int* matchcnt, char* line, const char* patt){
 }
 //hyun chang
 void cw_parsing(char* line, const char* patt, int* matchcnt){
+	regex_t state;
+	int status;
+	//for option 'w'. save End_Offset of pattern 
+	int offset = 0;
+	//if pattern matched, save offset of pattern 
+	regmatch_t data;
+	_Bool isMatched = false;
+
+	if(optionSet){	
+		if(regcomp(&state,patt,REG_ICASE)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+	else{
+		if(regcomp(&state, patt, 0)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+
+	while(status = regexec(&state, line+offset,1,&data,0) == 0){
+		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
+			isMatched = true;
+		else if((data.rm_so == 0) && (line[data.rm_eo] == ' '))
+			isMatched = true;
+		else if((line[data.rm_so-1] == ' ')&&(data.rm_eo==strlen(line)))
+			isMatched = true;
+		else if((line[data.rm_so-1]==' ')&&(line[data.rm_eo]==' '))
+			isMatched = true;
+		offset += data.rm_eo;
+	}
+
+	if(isMatched)
+		(*matchcnt)++;
+
+	regfree(&state);
 }
 
 //hyun chang
