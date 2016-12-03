@@ -45,6 +45,19 @@ void v_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 
 //mingu
 void c_parsing(int* matchcnt, char* line, const char* patt){
+
+	regex_t state;
+    int status;
+
+    if(regcomp(&state, patt, 0)){
+        perror("pattern parsing error");
+        exit(1);
+    }
+
+    status = regexec(&state, line,0,NULL,0);
+    if(!status)
+        (*matchcnt)++;
+
 }
 
 //mingu
