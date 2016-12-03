@@ -3,16 +3,29 @@
 //false : normal  true : all character
 _Bool optionSet = false; //false : normal  true : all character
 
+//setting regex compile
+void setRegexComp(regex_t* state, const char* patt){
+	if(optionSet){	
+		if(regcomp(state,patt,REG_ICASE)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+	else{
+		if(regcomp(state, patt, 0)){
+			perror("pattern parsing error");
+			exit(1);
+		}
+	}
+}
+
 //mingu
 void n_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool showFilename){
 	regex_t state;
     int status;
     int linecount=linecnt;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
 
     status = regexec(&state, line,0,NULL,0);
     if(!status)
@@ -28,10 +41,7 @@ void v_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 	regex_t state;
     int status;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
 
     status = regexec(&state, line,0,NULL,0);
 
@@ -49,10 +59,7 @@ void c_parsing(int* matchcnt, char* line, const char* patt){
 	regex_t state;
     int status;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
 
     status = regexec(&state, line,0,NULL,0);
     if(!status)
@@ -66,10 +73,8 @@ _Bool l_parsing(char* line, const char* patt, char* filename, _Bool showFilename
 	regex_t state;
     int status;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
+
     status = regexec(&state, line,0,NULL,0);
 
     if(!status)
@@ -88,18 +93,7 @@ void w_parsing(char* line, const char* patt, char* filename, _Bool showFilename)
 	regmatch_t data;
 	_Bool isMatched = false;
 
-	if(optionSet){	
-		if(regcomp(&state,patt,REG_ICASE)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
-	else{
-		if(regcomp(&state, patt, 0)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
+	setRegexComp(&state, patt);
 
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
@@ -128,10 +122,8 @@ _Bool lv_parsing(char* line, const char* patt){
 	regex_t state;
     int status;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
+	
     status = regexec(&state, line,0,NULL,0);
 
     if(status)
@@ -149,18 +141,7 @@ _Bool lw_parsing(char* line, const char* patt){
 	regmatch_t data;
 	_Bool isMatched = false;
 
-	if(optionSet){	
-		if(regcomp(&state,patt,REG_ICASE)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
-	else{
-		if(regcomp(&state, patt, 0)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
+	setRegexComp(&state, patt);
 
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
@@ -185,10 +166,7 @@ void nv_parsing(int linecnt, char* line, const char* patt, char* filename, _Bool
 	 int status;
 	 int linecount=linecnt;
 
-     if(regcomp(&state, patt, 0)){
-         perror("pattern parsing error");
-         exit(1);
-     }
+	setRegexComp(&state, patt);
 
      status = regexec(&state, line,0,NULL,0);
      if(status)
@@ -209,18 +187,7 @@ void nw_parsing(char* line, const char* patt, int* linenum,char* filename, _Bool
 	regmatch_t data;
 	_Bool isMatched = false;
 
-	if(optionSet){	
-		if(regcomp(&state,patt,REG_ICASE)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
-	else{
-		if(regcomp(&state, patt, 0)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
+	setRegexComp(&state, patt);
 
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
@@ -249,10 +216,7 @@ void vc_parsing(int* matchcnt, char* line, const char* patt){
 	regex_t state;
     int status;
 
-    if(regcomp(&state, patt, 0)){
-        perror("pattern parsing error");
-        exit(1);
-    }
+	setRegexComp(&state, patt);
 
     status = regexec(&state, line,0,NULL,0);
 
@@ -270,18 +234,7 @@ void cw_parsing(char* line, const char* patt, int* matchcnt){
 	regmatch_t data;
 	_Bool isMatched = false;
 
-	if(optionSet){	
-		if(regcomp(&state,patt,REG_ICASE)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
-	else{
-		if(regcomp(&state, patt, 0)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
+	setRegexComp(&state, patt);
 
 	while(status = regexec(&state, line+offset,1,&data,0) == 0){
 		if((data.rm_so == 0) && (data.rm_eo == strlen(line)))
@@ -307,18 +260,7 @@ void no_parsing(char* line,const char* patt,char* filename,_Bool showFilename){
 	regex_t state;
 	int status;
 
-	if(optionSet){	
-		if(regcomp(&state,patt,REG_ICASE)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
-	else{
-		if(regcomp(&state, patt, 0)){
-			perror("pattern parsing error");
-			exit(1);
-		}
-	}
+	setRegexComp(&state, patt);
 
 	status = regexec(&state, line,0,NULL,0);
 	if(!status)

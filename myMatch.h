@@ -27,6 +27,9 @@ void match(char*, char*,int,_Bool);
 //get option
 int getOption(char*);
 
+//set regcompile
+void setRegexComp(regex_t* , const char*);
+
 //string parsing 
 //ihc
 void no_parsing(char*, const char*, char*, _Bool);
